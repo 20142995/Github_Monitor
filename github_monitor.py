@@ -83,9 +83,7 @@ if __name__ == "__main__":
     cfgpath = os.path.join(root_path, "config.ini")
     conf = configparser.ConfigParser()
     conf.read(cfgpath, encoding="utf-8") 
-    print(conf.sections())
     for line in  conf.sections():
-        print(line)
         items = dict(conf.items(line))
         keyword = items.get("keyword")
         user = items.get("user")
@@ -99,6 +97,7 @@ if __name__ == "__main__":
                 continue
             else:
                 new_rl.append(row)
+                row = list(map(str,(row)))
                 if db.set("INSERT INTO github (name,url,updated_at,description,zh_description) VALUES (?,?,?,?,?)",row):
                     logger.info("[+] 更新{}成功".format(row))
                 else:
